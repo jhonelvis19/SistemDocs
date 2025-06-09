@@ -25,4 +25,9 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function documentos()
+    {
+        return $this->hasMany(Documento::class, 'id_usuario_creador');
+    }
 }

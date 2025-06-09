@@ -3,6 +3,7 @@
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DocumentoController;
 
 // Redirigir la raíz '/' al login
 Route::redirect('/', '/login');
@@ -28,3 +29,12 @@ Route::middleware(['auth', 'rol:usuario'])->get('/usuario', function () {
 
 Route::get('/registrar', [UsuarioController::class, 'showFormulario'])->name('registro.formulario');
 Route::post('/registrar', [UsuarioController::class, 'registrar'])->name('registro.guardar');
+
+
+
+
+Route::middleware(['auth', 'rol:admin'])->group(function () {
+    Route::get('/documentos/crear', [DocumentoController::class, 'create'])->name('documentos.create');
+    Route::post('/documentos', [DocumentoController::class, 'store'])->name('documentos.store');
+    Route::get('/documentos', [DocumentoController::class, 'index'])->name('documentos.index'); // opcional
+});
