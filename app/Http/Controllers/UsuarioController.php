@@ -20,7 +20,7 @@ class UsuarioController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'correo_electronico' => 'required|string|email|max:255|unique:Usuarios,correo_electronico',
+            'correo_electronico' => 'required|string|email|max:255|unique:usuarios,correo_electronico',
             'dni' => 'required|string|max:20',
             'password' => 'required|string|confirmed|min:6',
         ]);

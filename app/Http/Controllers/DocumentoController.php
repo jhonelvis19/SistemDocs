@@ -47,7 +47,7 @@ class DocumentoController extends Controller
         'id_usuario_creador' => $usuario->id_usuario,
         'id_tipo_documento' => $request->id_tipo_documento,
         'id_tipo_proceso' => $request->id_tipo_proceso,
-        'archivo' => $rutaArchivo,  // Guardamos la ruta en la BD
+        'archivo' => $rutaArchivo, 
     ]);
 
     return redirect()->route('admin.panel');
