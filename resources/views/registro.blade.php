@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="{{ asset('css/registro.css') }}">
 </head>
 <body>
+
     <h1>Registrar nuevo usuario</h1>
 
     @if ($errors->any())
@@ -29,5 +32,7 @@
 
     <br>
     <a href="{{ route('login') }}">Regresar al login</a>
+
 </body>
 </html>
+

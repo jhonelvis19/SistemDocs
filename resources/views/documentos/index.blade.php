@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de Documentos</title>
-</head>
-<body>
+@extends('layouts.menu_adm')
+
+@section('titulo', 'Lista de Documentos')
+
+@section('contenido')
     <h1>Lista de Documentos</h1>
 
-    <table border="1" cellpadding="8" cellspacing="0">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Título</th>
@@ -29,7 +28,5 @@
         </tbody>
     </table>
 
-    <br>
-    <a href="{{ route('admin.panel') }}">Volver al Panel</a>
-</body>
-</html>
+    <a href="{{ route('admin.panel') }}" class="btn btn-secondary mt-3">Volver al Panel</a>
+@endsection

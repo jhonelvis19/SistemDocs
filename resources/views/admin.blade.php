@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Panel Admin</title>
-</head>
-<body>
-    <h1>Bienvenido, Admin</h1>
-    <p>Este es tu panel de administrador.</p>
-    <a href="{{ route('documentos.create') }}" class="btn btn-primary mb-3">Crear nuevo documento</a>
-    <a href="{{ route('logout') }}">Cerrar sesión</a>
-    <a href="{{ route('documentos.index') }}">Ver Documentos</a>
+@extends('layouts.menu_adm')
 
-</body>
-</html>
+@section('titulo', 'Panel de Administración')
+
+@section('contenido')
+    <div class="text-center">
+        <h1 class="mb-3">Bienvenido, Admin</h1>
+        <p class="lead">Este es tu panel de administración de documentos.</p>
+    </div>
+@endsection
