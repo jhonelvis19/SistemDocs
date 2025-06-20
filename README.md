@@ -7,6 +7,7 @@
 
 Antes de comenzar, asegúrate de tener instalados en tu computadora:
 
+* [composer](lo puedes hacer mediante este enlace: https://getcomposer.org/download/)
 * [Docker](https://www.docker.com/products/docker-desktop/)
 * [Git](https://git-scm.com/) (opcional pero recomendado)
 
@@ -79,15 +80,3 @@ docker-compose up --build
 
 ---
 
-### 📄 6. Agrega esto a tu .gitignore (importante)
-
-No subas archivos como `vendor/`, `.env`, o volúmenes de Docker. Asegúrate de que `.gitignore` incluya:
-
-```
-vendor/
-.env
-node_modules/
-docker/mysql/*
-```
-
--
