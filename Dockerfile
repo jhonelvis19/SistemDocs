@@ -1,27 +1,33 @@
-FROM composer:2 as composer
+# Etapa base con PHP 8.2 y FPM
+FROM php:8.2-fpm
 
-FROM php:8.2-apache
-
+# Instalar dependencias necesarias
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    zip \
-    unzip \
-    curl \
     git \
-    && docker-php-ext-install pdo pdo_mysql zip \
-    && a2enmod rewrite
+    curl \
+    unzip \
+    zip \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+# Instalar Composer (manualmente en la misma etapa)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /var/www/html
+# Establecer el directorio de trabajo dentro del contenedor
+WORKDIR /var/www
 
-COPY ./back /var/www/html
+# Copiar todos los archivos del proyecto al contenedor
+COPY . .
 
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+# Instalar las dependencias de Laravel (sin las de desarrollo para producción)
+RUN composer install --no-dev --no-interaction --optimize-autoloader
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Cambiar permisos
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-EXPOSE 80
+# Puerto expuesto por PHP-FPM (usado por Nginx en el servicio web)
+EXPOSE 9000
