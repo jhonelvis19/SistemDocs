@@ -1,18 +1,13 @@
 <?php
-
-
 use App\Models\HistorialEstado;
 use App\Models\Ubicacion;
 use App\Models\EstadoDocumento;
 
-...
+// Asegúrate que $siguienteFlujo y $documento estén definidos antes de esto
 
-// Obtener la nueva ubicación
 $nuevaUbicacion = Ubicacion::find($siguienteFlujo->id_ubicacion_destino);
 
 if ($nuevaUbicacion) {
-    $nuevoEstado = null;
-
     switch ($nuevaUbicacion->nombre_ubicacion) {
         case 'Mesa de Partes':
             $nuevoEstado = 'Recibido';
@@ -30,8 +25,8 @@ if ($nuevaUbicacion) {
             break;
     }
 
-    // Obtener ID del estado
     $estado = EstadoDocumento::where('nombre_estado', $nuevoEstado)->first();
+
     if ($estado) {
         HistorialEstado::create([
             'id_documento' => $documento->id_documento,
@@ -39,5 +34,9 @@ if ($nuevaUbicacion) {
             'fecha_cambio' => now(),
             'observaciones' => 'Cambio automático por avance de ubicación.',
         ]);
+    } else {
+        \Log::warning("Estado '$nuevoEstado' no encontrado en la tabla estados_documento.");
     }
+} else {
+    \Log::warning("Ubicación no encontrada con ID: {$siguienteFlujo->id_ubicacion_destino}");
 }

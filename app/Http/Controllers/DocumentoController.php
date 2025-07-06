@@ -79,7 +79,7 @@ class DocumentoController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.panel')->with('success', 'Documento registrado correctamente.');
+            return redirect()->route('documento.store')->with('success', 'Documento registrado correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Error al registrar el documento: ' . $e->getMessage());

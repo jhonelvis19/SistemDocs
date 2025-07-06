@@ -1,37 +1,36 @@
-services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: laravel-app
-    container_name: laravel-app
-    restart: always
-    working_dir: /var/www
-    ports:
-      - "80:80" 
-    networks:
-      - laravel
+version: "3.8"
 
-  db:
-    image: mysql:8.0
-    container_name: mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
-    ports:
-      - "3306:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./initdb:/docker-entrypoint-initdb.d  
-    networks:
-      - laravel
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel-app
+        ports:
+            - "80:80"
+        depends_on:
+            - db
+        networks:
+            - laravel
+
+    db:
+        image: mysql:8.0
+        container_name: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: sistemdocs
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: laravel
+        ports:
+            - "3307:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./initdb:/docker-entrypoint-initdb.d
+        networks:
+            - laravel
 
 volumes:
-  dbdata:
+    dbdata:
 
 networks:
-  laravel:
-    driver: bridge
+    laravel:
