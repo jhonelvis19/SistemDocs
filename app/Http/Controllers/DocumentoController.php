@@ -30,10 +30,10 @@ class DocumentoController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:200',
             'descripcion' => 'nullable|string',
-            'dni_usuario' => 'required|string|exists:Usuarios,dni',
+            'dni_usuario' => 'required|string|exists:usuarios,dni',
             'archivo' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:2048',
-            'id_tipo_documento' => 'required|exists:Tipos_Documento,id_tipo_documento',
-            'id_tipo_proceso' => 'required|exists:Tipos_Proceso,id_tipo_proceso',
+            'id_tipo_documento' => 'required|exists:tipos_documento,id_tipo_documento',
+            'id_tipo_proceso' => 'required|exists:tipos_proceso,id_tipo_proceso',
         ]);
 
         $usuario = Usuario::where('dni', $request->dni_usuario)->first();
@@ -93,7 +93,7 @@ class DocumentoController extends Controller
             'tipoDocumento',
             'tipoProceso',
             'ubicacionActual.ubicacion',
-            'estadoActual.estado' // Asegúrate de tener esta relación en el modelo Documento
+            'estadoActual.estado' 
         ])->get();
 
         return view('documentos.index', compact('documentos'));
@@ -197,8 +197,8 @@ public function update(Request $request, $id)
     $request->validate([
         'titulo' => 'required|string|max:200',
         'descripcion' => 'nullable|string',
-        'id_tipo_documento' => 'required|exists:Tipos_Documento,id_tipo_documento',
-        'id_tipo_proceso' => 'required|exists:Tipos_Proceso,id_tipo_proceso',
+        'id_tipo_documento' => 'required|exists:tipos_documento,id_tipo_documento',
+        'id_tipo_proceso' => 'required|exists:tipos_proceso,id_tipo_proceso',
     ]);
 
     $documento = Documento::findOrFail($id);

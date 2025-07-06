@@ -1,33 +1,30 @@
-# Etapa base con PHP 8.2 y FPM
-FROM php:8.2-fpm
+FROM php:8.3-apache
 
-# Instalar dependencias necesarias
+# Instalar extensiones necesarias
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    unzip \
-    zip \
-    libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath
+    zip unzip git curl libpng-dev libonig-dev libxml2-dev libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# Instalar Composer (manualmente en la misma etapa)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Habilitar mod_rewrite
+RUN a2enmod rewrite
 
-# Establecer el directorio de trabajo dentro del contenedor
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Establecer el directorio de trabajo
 WORKDIR /var/www
 
-# Copiar todos los archivos del proyecto al contenedor
+# Copiar todos los archivos del proyecto Laravel
 COPY . .
 
-# Instalar las dependencias de Laravel (sin las de desarrollo para producción)
-RUN composer install --no-dev --no-interaction --optimize-autoloader
+# Configurar Apache para servir desde /public
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/public|g' /etc/apache2/sites-available/000-default.conf
 
-# Cambiar permisos
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
+# Instalar dependencias y preparar Laravel automáticamente
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader && \
+    if [ ! -f .env ]; then cp .env.example .env; fi && \
+    php artisan key:generate && \
+    chown -R www-data:www-data /var/www && \
+    chmod -R 775 storage bootstrap/cache
 
-# Puerto expuesto por PHP-FPM (usado por Nginx en el servicio web)
-EXPOSE 9000
+EXPOSE 80
