@@ -30,7 +30,7 @@ class UsuarioController extends Controller
             'apellido' => $request->apellido,
             'correo_electronico' => $request->correo_electronico,
             'dni' => $request->dni,
-            'rol' => 'admin',
+            'rol' => 'usuario',
             'password' => Hash::make($request->password),
         ]);
 
