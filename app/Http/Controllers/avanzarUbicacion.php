@@ -32,7 +32,7 @@ if ($nuevaUbicacion) {
             'id_documento' => $documento->id_documento,
             'id_estado' => $estado->id_estado,
             'fecha_cambio' => now(),
-            'observaciones' => 'Cambio automático por avance de ubicación.',
+            'observaciones' => '',
         ]);
     } else {
         \Log::warning("Estado '$nuevoEstado' no encontrado en la tabla estados_documento.");

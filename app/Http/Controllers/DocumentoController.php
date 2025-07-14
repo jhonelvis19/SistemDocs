@@ -15,7 +15,7 @@ use App\Models\EstadoDocumento;
 use App\Models\HistorialEstado;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AsignacionDocumento;
-
+use Illuminate\Support\Facades\Log;
 
 class DocumentoController extends Controller
 {
@@ -66,7 +66,6 @@ public function store(Request $request)
             'id_documento' => $documento->id_documento,
             'id_usuario' => $usuarioAsignado->id_usuario,
         ]);
-
         // Ubicación inicial
         $mesa = Ubicacion::where('nombre_ubicacion', 'Mesa de Partes')->first();
         if ($mesa) {
@@ -87,7 +86,7 @@ public function store(Request $request)
                 'observaciones' => 'Documento creado y enviado desde Mesa de Partes',
             ]);
         }
-
+        Log::info('This is another log message.');
         DB::commit();
         return redirect()->route('documentos.index')->with('success', 'Documento creado correctamente.');
     } catch (\Exception $e) {
@@ -167,7 +166,7 @@ public function store(Request $request)
                     'id_documento' => $documento->id_documento,
                     'id_estado' => $estado->id_estado,
                     'fecha_cambio' => now(),
-                    'observaciones' => 'Cambio automático por avance de ubicación.',
+                    'observaciones' => 'se realiso un avanse de oficina.',
                 ]);
             }
 
