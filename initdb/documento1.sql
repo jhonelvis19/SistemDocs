@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 23-06-2025 a las 22:07:09
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Jul 14, 2025 at 05:05 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `documento1`
+-- Database: `documento1`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `documentos`
+-- Table structure for table `asignaciones_documentos`
+--
+
+CREATE TABLE `asignaciones_documentos` (
+  `id_asignacion` int(11) NOT NULL,
+  `id_documento` int(11) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `documentos`
 --
 
 CREATE TABLE `documentos` (
@@ -37,21 +49,8 @@ CREATE TABLE `documentos` (
   `id_usuario_creador` int(11) DEFAULT NULL,
   `archivo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `documentos`
---
-
-INSERT INTO `documentos` (`id_documento`, `titulo`, `descripcion`, `fecha_creacion`, `id_tipo_documento`, `id_tipo_proceso`, `id_usuario_creador`, `archivo`) VALUES
-(9, 'laymir', 'chivo', '2025-06-23', 3, 3, 2, 'documentos/1750653545_PRODUCT_DIGITAL_1.pdf'),
-(10, 'haber', 'ss', '2025-06-23', 4, 1, 3, 'documentos/1750659267_METODOLOGIA_CRISP_DM.pdf'),
-(11, 'haber s', 'ss', '2025-06-23', 8, 1, 3, 'documentos/1750659865_Metodologia_SEMMA_mio.pdf'),
-(12, 'asd', 'sad', '2025-06-23', 9, 3, 2, 'documentos/1750661475_Presentación Diapositivas Propuesta de Proyecto Creativo Doodle Rosa y Violeta.pdf');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `estados_documento`
+ --------------------------------------------------------
+-- Table structure for table `estados_documento`
 --
 
 CREATE TABLE `estados_documento` (
@@ -60,7 +59,7 @@ CREATE TABLE `estados_documento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `estados_documento`
+-- Dumping data for table `estados_documento`
 --
 
 INSERT INTO `estados_documento` (`id_estado`, `nombre_estado`) VALUES
@@ -72,7 +71,7 @@ INSERT INTO `estados_documento` (`id_estado`, `nombre_estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `firmas_digitales`
+-- Table structure for table `firmas_digitales`
 --
 
 CREATE TABLE `firmas_digitales` (
@@ -89,7 +88,7 @@ CREATE TABLE `firmas_digitales` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `flujos_proceso`
+-- Table structure for table `flujos_proceso`
 --
 
 CREATE TABLE `flujos_proceso` (
@@ -100,7 +99,7 @@ CREATE TABLE `flujos_proceso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `flujos_proceso`
+-- Dumping data for table `flujos_proceso`
 --
 
 INSERT INTO `flujos_proceso` (`id_flujo`, `id_tipo_proceso`, `id_ubicacion`, `orden`) VALUES
@@ -139,7 +138,7 @@ INSERT INTO `flujos_proceso` (`id_flujo`, `id_tipo_proceso`, `id_ubicacion`, `or
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `historial_estado`
+-- Table structure for table `historial_estado`
 --
 
 CREATE TABLE `historial_estado` (
@@ -151,7 +150,7 @@ CREATE TABLE `historial_estado` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `historial_estado`
+-- Dumping data for table `historial_estado`
 --
 
 INSERT INTO `historial_estado` (`id_historial`, `id_documento`, `id_estado`, `fecha_cambio`, `observaciones`) VALUES
@@ -191,7 +190,7 @@ INSERT INTO `historial_estado` (`id_historial`, `id_documento`, `id_estado`, `fe
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipos_documento`
+-- Table structure for table `tipos_documento`
 --
 
 CREATE TABLE `tipos_documento` (
@@ -201,7 +200,7 @@ CREATE TABLE `tipos_documento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipos_documento`
+-- Dumping data for table `tipos_documento`
 --
 
 INSERT INTO `tipos_documento` (`id_tipo_documento`, `nombre_documento`, `descripcion`) VALUES
@@ -219,7 +218,7 @@ INSERT INTO `tipos_documento` (`id_tipo_documento`, `nombre_documento`, `descrip
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipos_proceso`
+-- Table structure for table `tipos_proceso`
 --
 
 CREATE TABLE `tipos_proceso` (
@@ -229,7 +228,7 @@ CREATE TABLE `tipos_proceso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tipos_proceso`
+-- Dumping data for table `tipos_proceso`
 --
 
 INSERT INTO `tipos_proceso` (`id_tipo_proceso`, `nombre_proceso`, `descripcion`) VALUES
@@ -242,7 +241,7 @@ INSERT INTO `tipos_proceso` (`id_tipo_proceso`, `nombre_proceso`, `descripcion`)
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ubicaciones`
+-- Table structure for table `ubicaciones`
 --
 
 CREATE TABLE `ubicaciones` (
@@ -252,7 +251,7 @@ CREATE TABLE `ubicaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `ubicaciones`
+-- Dumping data for table `ubicaciones`
 --
 
 INSERT INTO `ubicaciones` (`id_ubicacion`, `nombre_ubicacion`, `descripcion`) VALUES
@@ -270,7 +269,7 @@ INSERT INTO `ubicaciones` (`id_ubicacion`, `nombre_ubicacion`, `descripcion`) VA
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ubicacion_documento`
+-- Table structure for table `ubicacion_documento`
 --
 
 CREATE TABLE `ubicacion_documento` (
@@ -281,7 +280,7 @@ CREATE TABLE `ubicacion_documento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `ubicacion_documento`
+-- Dumping data for table `ubicacion_documento`
 --
 
 INSERT INTO `ubicacion_documento` (`id_ubicacion_doc`, `id_documento`, `id_ubicacion`, `fecha_registro`) VALUES
@@ -327,7 +326,7 @@ INSERT INTO `ubicacion_documento` (`id_ubicacion_doc`, `id_documento`, `id_ubica
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -341,20 +340,27 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `correo_electronico`, `rol`, `dni`, `password`) VALUES
 (1, 'Admin', 'Principal', 'admin@demo.com', 'admin', '12345678', '$2y$12$AjNwwEF1HeQ4stACLbNLZebgBn/howdygQj0FOnNDmcWa6qKDWsh2'),
-(2, 'Usuario', 'Regular', 'usuario@demo.com', 'usuario', '87654321', '$2y$12$LUdc7QI0qd919238bS2wDuY1H40fXyosbd/AOfufL8wvgna.AX9rC'),
-(3, 'jhon', 'sihuayro', 'jhon@gmail.com', 'usuario', '75573542', '$2y$12$4nprreQcPtOzzRUYd3Bgx.4vUtQ1F7kNRYJ3ra.YK9a72aGrqFHwa');
+(2, 'Usuario', 'Regular', 'usuario@demo.com', 'usuario', '87654321', '$2y$12$LUdc7QI0qd919238bS2wDuY1H40fXyosbd/AOfufL8wvgna.AX9rC');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `documentos`
+-- Indexes for table `asignaciones_documentos`
+--
+ALTER TABLE `asignaciones_documentos`
+  ADD PRIMARY KEY (`id_asignacion`),
+  ADD KEY `id_documento` (`id_documento`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indexes for table `documentos`
 --
 ALTER TABLE `documentos`
   ADD PRIMARY KEY (`id_documento`),
@@ -363,13 +369,13 @@ ALTER TABLE `documentos`
   ADD KEY `id_usuario_creador` (`id_usuario_creador`);
 
 --
--- Indices de la tabla `estados_documento`
+-- Indexes for table `estados_documento`
 --
 ALTER TABLE `estados_documento`
   ADD PRIMARY KEY (`id_estado`);
 
 --
--- Indices de la tabla `firmas_digitales`
+-- Indexes for table `firmas_digitales`
 --
 ALTER TABLE `firmas_digitales`
   ADD PRIMARY KEY (`id_firma`),
@@ -377,7 +383,7 @@ ALTER TABLE `firmas_digitales`
   ADD KEY `id_usuario_firmante` (`id_usuario_firmante`);
 
 --
--- Indices de la tabla `flujos_proceso`
+-- Indexes for table `flujos_proceso`
 --
 ALTER TABLE `flujos_proceso`
   ADD PRIMARY KEY (`id_flujo`),
@@ -385,7 +391,7 @@ ALTER TABLE `flujos_proceso`
   ADD KEY `id_ubicacion` (`id_ubicacion`);
 
 --
--- Indices de la tabla `historial_estado`
+-- Indexes for table `historial_estado`
 --
 ALTER TABLE `historial_estado`
   ADD PRIMARY KEY (`id_historial`),
@@ -393,25 +399,25 @@ ALTER TABLE `historial_estado`
   ADD KEY `id_estado` (`id_estado`);
 
 --
--- Indices de la tabla `tipos_documento`
+-- Indexes for table `tipos_documento`
 --
 ALTER TABLE `tipos_documento`
   ADD PRIMARY KEY (`id_tipo_documento`);
 
 --
--- Indices de la tabla `tipos_proceso`
+-- Indexes for table `tipos_proceso`
 --
 ALTER TABLE `tipos_proceso`
   ADD PRIMARY KEY (`id_tipo_proceso`);
 
 --
--- Indices de la tabla `ubicaciones`
+-- Indexes for table `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
   ADD PRIMARY KEY (`id_ubicacion`);
 
 --
--- Indices de la tabla `ubicacion_documento`
+-- Indexes for table `ubicacion_documento`
 --
 ALTER TABLE `ubicacion_documento`
   ADD PRIMARY KEY (`id_ubicacion_doc`),
@@ -419,7 +425,7 @@ ALTER TABLE `ubicacion_documento`
   ADD KEY `id_ubicacion` (`id_ubicacion`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
@@ -427,104 +433,109 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `dni` (`dni`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `documentos`
+-- AUTO_INCREMENT for table `asignaciones_documentos`
+--
+ALTER TABLE `asignaciones_documentos`
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `documentos`
 --
 ALTER TABLE `documentos`
   MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT de la tabla `estados_documento`
+-- AUTO_INCREMENT for table `estados_documento`
 --
 ALTER TABLE `estados_documento`
   MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `firmas_digitales`
+-- AUTO_INCREMENT for table `firmas_digitales`
 --
 ALTER TABLE `firmas_digitales`
   MODIFY `id_firma` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `flujos_proceso`
+-- AUTO_INCREMENT for table `flujos_proceso`
 --
 ALTER TABLE `flujos_proceso`
   MODIFY `id_flujo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT de la tabla `historial_estado`
+-- AUTO_INCREMENT for table `historial_estado`
 --
 ALTER TABLE `historial_estado`
   MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT de la tabla `tipos_documento`
+-- AUTO_INCREMENT for table `tipos_documento`
 --
 ALTER TABLE `tipos_documento`
   MODIFY `id_tipo_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tipos_proceso`
+-- AUTO_INCREMENT for table `tipos_proceso`
 --
 ALTER TABLE `tipos_proceso`
   MODIFY `id_tipo_proceso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `ubicaciones`
+-- AUTO_INCREMENT for table `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
   MODIFY `id_ubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `ubicacion_documento`
+-- AUTO_INCREMENT for table `ubicacion_documento`
 --
 ALTER TABLE `ubicacion_documento`
   MODIFY `id_ubicacion_doc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `documentos`
+-- Constraints for table `asignaciones_documentos`
 --
-ALTER TABLE `documentos`
-  ADD CONSTRAINT `documentos_ibfk_1` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documento` (`id_tipo_documento`),
-  ADD CONSTRAINT `documentos_ibfk_2` FOREIGN KEY (`id_tipo_proceso`) REFERENCES `tipos_proceso` (`id_tipo_proceso`),
-  ADD CONSTRAINT `documentos_ibfk_3` FOREIGN KEY (`id_usuario_creador`) REFERENCES `usuarios` (`id_usuario`);
+ALTER TABLE `asignaciones_documentos`
+  ADD CONSTRAINT `asignaciones_documentos_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documentos` (`id_documento`),
+  ADD CONSTRAINT `asignaciones_documentos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
--- Filtros para la tabla `firmas_digitales`
+-- Constraints for table `firmas_digitales`
 --
 ALTER TABLE `firmas_digitales`
   ADD CONSTRAINT `firmas_digitales_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documentos` (`id_documento`),
   ADD CONSTRAINT `firmas_digitales_ibfk_2` FOREIGN KEY (`id_usuario_firmante`) REFERENCES `usuarios` (`id_usuario`);
 
 --
--- Filtros para la tabla `flujos_proceso`
+-- Constraints for table `flujos_proceso`
 --
 ALTER TABLE `flujos_proceso`
   ADD CONSTRAINT `flujos_proceso_ibfk_1` FOREIGN KEY (`id_tipo_proceso`) REFERENCES `tipos_proceso` (`id_tipo_proceso`),
   ADD CONSTRAINT `flujos_proceso_ibfk_2` FOREIGN KEY (`id_ubicacion`) REFERENCES `ubicaciones` (`id_ubicacion`);
 
 --
--- Filtros para la tabla `historial_estado`
+-- Constraints for table `historial_estado`
 --
 ALTER TABLE `historial_estado`
   ADD CONSTRAINT `historial_estado_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documentos` (`id_documento`),
   ADD CONSTRAINT `historial_estado_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estados_documento` (`id_estado`);
 
 --
--- Filtros para la tabla `ubicacion_documento`
+-- Constraints for table `ubicacion_documento`
 --
 ALTER TABLE `ubicacion_documento`
   ADD CONSTRAINT `ubicacion_documento_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documentos` (`id_documento`),

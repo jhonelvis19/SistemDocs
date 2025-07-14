@@ -39,7 +39,8 @@ public function store(Request $request)
         'id_tipo_proceso' => 'required|exists:tipos_proceso,id_tipo_proceso',
     ]);
 
-    $usuario = Usuario::where('dni', $request->dni_usuario)->first();
+    $usuarioAsignado = Usuario::where('dni', $request->dni_usuario)->first();
+    $admin = Auth::user(); // este es el admin que está logueado
 
     $rutaArchivo = null;
     if ($request->hasFile('archivo')) {
@@ -50,22 +51,20 @@ public function store(Request $request)
 
     DB::beginTransaction();
     try {
-        // Crear documento
         $documento = Documento::create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'fecha_creacion' => now(),
-            'id_usuario_creador' => Auth::id(), // El admin autenticado que crea
+            'id_usuario_creador' => $admin->id_usuario, // El admin es el creador
             'id_tipo_documento' => $request->id_tipo_documento,
             'id_tipo_proceso' => $request->id_tipo_proceso,
             'archivo' => $rutaArchivo,
         ]);
 
-        // Asignar documento al usuario por su ID
+        // Registrar la asignación al usuario por DNI
         AsignacionDocumento::create([
             'id_documento' => $documento->id_documento,
-            'id_usuario' => $usuario->id_usuario,
-            'fecha_asignacion' => now(),
+            'id_usuario' => $usuarioAsignado->id_usuario,
         ]);
 
         // Ubicación inicial
@@ -78,7 +77,7 @@ public function store(Request $request)
             ]);
         }
 
-        // Estado inicial
+        // Estado inicial: Enviado
         $estadoInicial = EstadoDocumento::where('nombre_estado', 'Enviado')->first();
         if ($estadoInicial) {
             HistorialEstado::create([
@@ -90,8 +89,7 @@ public function store(Request $request)
         }
 
         DB::commit();
-        return redirect()->route('documentos.index')->with('success', 'Documento registrado correctamente.');
-
+        return redirect()->route('documentos.index')->with('success', 'Documento creado correctamente.');
     } catch (\Exception $e) {
         DB::rollBack();
         return back()->with('error', 'Error al registrar el documento: ' . $e->getMessage());
@@ -114,6 +112,12 @@ public function store(Request $request)
 
     public function avanzar($id)
     {
+        $documento = Documento::findOrFail($id);
+
+        $estadoActual = $documento->estadoActual;
+        if ($estadoActual && $estadoActual->estado->nombre_estado === 'Rechazado') {
+        return back()->with('error', 'No se puede avanzar un documento que ha sido rechazado.');
+        }
         DB::beginTransaction();
 
         try {
@@ -175,27 +179,37 @@ public function store(Request $request)
         }
     }
 
-    public function rechazar($id)
-    {
-        $documento = Documento::findOrFail($id);
+public function rechazar(Request $request, $id)
+{
+    $request->validate([
+        'observaciones' => 'required|string|max:500',
+    ]);
 
-        $estadoRechazado = EstadoDocumento::where('nombre_estado', 'Rechazado')->first();
+    $documento = Documento::findOrFail($id);
+    $estadoRechazado = EstadoDocumento::where('nombre_estado', 'Rechazado')->first();
 
-        if ($estadoRechazado) {
-            HistorialEstado::create([
-                'id_documento' => $documento->id_documento,
-                'id_estado' => $estadoRechazado->id_estado,
-                'fecha_cambio' => now(),
-                'observaciones' => 'Rechazado por el administrador',
-            ]);
-        }
-
-        return back()->with('success', 'El documento ha sido rechazado.');
+    if ($estadoRechazado) {
+        HistorialEstado::create([
+            'id_documento' => $documento->id_documento,
+            'id_estado' => $estadoRechazado->id_estado,
+            'fecha_cambio' => now(),
+            'observaciones' => $request->observaciones,
+        ]);
     }
+
+    return back()->with('success', 'El documento ha sido rechazado.');
+}
+
 
     // Mostrar formulario de edición
 public function edit($id)
 {
+    $documento = Documento::with('estadoActual.estado')->findOrFail($id);
+
+    if ($documento->estadoActual && $documento->estadoActual->estado->nombre_estado === 'Rechazado') {
+    return redirect()->route('documentos.index')->with('error', 'No se puede editar un documento rechazado.');
+    }
+
     $documento = Documento::findOrFail($id);
     $usuarios = Usuario::where('rol', 'usuario')->get();
     $tiposDocumento = TipoDocumento::all();
@@ -207,6 +221,11 @@ public function edit($id)
 // Actualizar documento
 public function update(Request $request, $id)
 {
+    $documento = Documento::with('estadoActual.estado')->findOrFail($id);
+
+    if ($documento->estadoActual && $documento->estadoActual->estado->nombre_estado === 'Rechazado') {
+    return redirect()->route('documentos.index')->with('error', 'No se puede actualizar un documento rechazado.');
+    }
     $request->validate([
         'titulo' => 'required|string|max:200',
         'descripcion' => 'nullable|string',
@@ -270,6 +289,5 @@ public function misDocumentos()
 
     return view('documentos.mis_documentos', compact('documentos'));
 }
-
 
 }

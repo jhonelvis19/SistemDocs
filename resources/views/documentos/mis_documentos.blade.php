@@ -1,27 +1,40 @@
+@extends('layouts.menu_user')
 
-    <h1>Mis Documentos</h1>
+@section('titulo', 'Mis Documentos')
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Tipo</th>
-                <th>Proceso</th>
-                <th>Ubicación Actual</th>
-                <th>Estado</th>
-                <th>Creado</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($documentos as $doc)
-                <tr>
-                    <td>{{ $doc->titulo }}</td>
-                    <td>{{ $doc->tipoDocumento->nombre_documento ?? 'N/A' }}</td>
-                    <td>{{ $doc->tipoProceso->nombre_proceso ?? 'N/A' }}</td>
-                    <td>{{ $doc->ubicacionActual->ubicacion->nombre_ubicacion ?? 'No asignado' }}</td>
-                    <td>{{ $doc->estadoActual->estado->nombre_estado ?? 'Sin estado' }}</td>
-                    <td>{{ $doc->fecha_creacion }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+@section('contenido')
+    <h2 class="mb-4">Mis Documentos Asignados</h2>
+
+    @if($documentos->isEmpty())
+        <div class="alert alert-info">
+            No tienes documentos asignados.
+        </div>
+    @else
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>Título</th>
+                        <th>Estado</th>
+                        <th>Ubicación Actual</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($documentos as $doc)
+                        <tr>
+                            <td>{{ $doc->titulo }}</td>
+                            <td>{{ $doc->estadoActual->estado->nombre_estado ?? 'Sin estado' }}</td>
+                            <td>{{ $doc->ubicacionActual->ubicacion->nombre_ubicacion ?? 'No asignado' }}</td>
+                            <td>
+                                {{ $doc->estadoActual->observaciones ?? 'Sin observaciones' }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+
+    <a href="{{ route('usuario.panel') }}" class="btn btn-secondary mt-3">Volver al Panel</a>
+@endsection

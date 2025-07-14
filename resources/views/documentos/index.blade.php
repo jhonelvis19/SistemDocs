@@ -45,6 +45,7 @@
                     <td>{{ $doc->fecha_creacion }}</td>
                     <td>{{ $doc->estadoActual->estado->nombre_estado ?? 'Sin estado' }}</td>
                     <td class="text-center">
+                    @if($doc->estadoActual && $doc->estadoActual->estado->nombre_estado !== 'Rechazado')
                         {{-- Botón Avanzar --}}
                         <form action="{{ route('documentos.avanzar', $doc->id_documento) }}" method="POST" style="display:inline;">
                             @csrf
@@ -53,29 +54,60 @@
                             </button>
                         </form>
 
-                        {{-- Botón Rechazar --}}
-                        <form action="{{ route('documentos.rechazar', $doc->id_documento) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Está seguro de rechazar este documento?');">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Rechazar">
-                                <i class="fas fa-times-circle"></i>
-                            </button>
-                        </form>
-                        {{-- Editar --}}
+                        {{-- Botón Editar --}}
                         <a href="{{ route('documentos.edit', $doc->id_documento) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>
+                    @endif
 
-                        {{-- Botón Eliminar --}}
-                        <form action="{{ route('documentos.destroy', $doc->id_documento) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este documento?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Eliminar">
-                                <i class="bi bi-trash3"></i>
-                            </button>
-                        </form>
-                    </td>
+                    {{-- Botón Rechazar --}}
+                    @if($doc->estadoActual && $doc->estadoActual->estado->nombre_estado !== 'Rechazado')
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalRechazo{{ $doc->id_documento }}" title="Rechazar">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    @endif
+
+                    
+
+                    {{-- Botón Eliminar (siempre visible) --}}
+                    <form action="{{ route('documentos.destroy', $doc->id_documento) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este documento?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Eliminar">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </form>
+                </td>
+
                 </tr>
             @endforeach
+            @foreach ($documentos as $doc)
+            <!-- Modal de Rechazo -->
+            <div class="modal fade" id="modalRechazo{{ $doc->id_documento }}" tabindex="-1" aria-labelledby="modalLabel{{ $doc->id_documento }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('documentos.rechazar', $doc->id_documento) }}" method="POST">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="modalLabel{{ $doc->id_documento }}">Motivo de Rechazo</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="observaciones">Ingrese el motivo del rechazo:</label>
+                                    <textarea name="observaciones" class="form-control" rows="3" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Rechazar Documento</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @endforeach
+
         </tbody>
     </table>
 
