@@ -39,7 +39,7 @@
                 <tr>
                     <td>{{ $doc->titulo }}</td>
                     <td>{{ $doc->tipoDocumento->nombre_documento ?? 'N/A' }}</td>
-                    <td>{{ $doc->usuario->nombre ?? 'N/A' }} {{ $doc->usuario->apellido ?? '' }}</td>
+                    <td>{{ $doc->usuarioAsignado->nombre_completo ?? 'No asignado' }}</td> 
                     <td>{{ $doc->tipoProceso->nombre_proceso ?? 'N/A' }}</td>
                     <td>{{ $doc->ubicacionActual->ubicacion->nombre_ubicacion ?? 'No asignado' }}</td>
                     <td>{{ $doc->fecha_creacion }}</td>

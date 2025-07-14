@@ -5,19 +5,14 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DocumentoController;
 
-// Redirigir la raíz '/' al login
 Route::redirect('/', '/login');
-
-// Mostrar formulario de login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
-// Procesar login
+
 Route::post('/login', [AuthController::class, 'login']);
 
-// Logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Rutas protegidas por middleware y roles
 Route::middleware(['auth', 'rol:admin'])->get('/admin', function () {
     return view('admin');
 })->name('admin.panel');
@@ -45,3 +40,7 @@ Route::get('/documentos/{id}/editar', [DocumentoController::class, 'edit'])->nam
 Route::put('/documentos/{id}', [DocumentoController::class, 'update'])->name('documentos.update');
 Route::delete('/documentos/{id}', [DocumentoController::class, 'destroy'])->name('documentos.destroy');
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mis-documentos', [DocumentoController::class, 'misDocumentos'])->name('documentos.usuario');
+});

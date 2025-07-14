@@ -30,5 +30,9 @@ class UbicacionDocumento extends Model
     {
         return $this->belongsTo(EstadoDocumento::class, 'id_estado');
     }
+    public function ubicaciones()
+{
+    return $this->hasMany(UbicacionDocumento::class, 'id_documento');
+}
 
 }

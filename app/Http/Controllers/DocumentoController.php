@@ -13,6 +13,9 @@ use App\Models\UbicacionDocumento;
 use App\Models\FlujoProceso;
 use App\Models\EstadoDocumento;
 use App\Models\HistorialEstado;
+use Illuminate\Support\Facades\Auth;
+use App\Models\AsignacionDocumento;
+
 
 class DocumentoController extends Controller
 {
@@ -25,75 +28,85 @@ class DocumentoController extends Controller
         return view('documentos.create', compact('usuarios', 'tiposDocumento', 'tiposProceso'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'titulo' => 'required|string|max:200',
-            'descripcion' => 'nullable|string',
-            'dni_usuario' => 'required|string|exists:usuarios,dni',
-            'archivo' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:2048',
-            'id_tipo_documento' => 'required|exists:tipos_documento,id_tipo_documento',
-            'id_tipo_proceso' => 'required|exists:tipos_proceso,id_tipo_proceso',
+public function store(Request $request)
+{
+    $request->validate([
+        'titulo' => 'required|string|max:200',
+        'descripcion' => 'nullable|string',
+        'dni_usuario' => 'required|string|exists:usuarios,dni',
+        'archivo' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+        'id_tipo_documento' => 'required|exists:tipos_documento,id_tipo_documento',
+        'id_tipo_proceso' => 'required|exists:tipos_proceso,id_tipo_proceso',
+    ]);
+
+    $usuario = Usuario::where('dni', $request->dni_usuario)->first();
+
+    $rutaArchivo = null;
+    if ($request->hasFile('archivo')) {
+        $archivo = $request->file('archivo');
+        $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
+        $rutaArchivo = $archivo->storeAs('documentos', $nombreArchivo, 'public');
+    }
+
+    DB::beginTransaction();
+    try {
+        // Crear documento
+        $documento = Documento::create([
+            'titulo' => $request->titulo,
+            'descripcion' => $request->descripcion,
+            'fecha_creacion' => now(),
+            'id_usuario_creador' => Auth::id(), // El admin autenticado que crea
+            'id_tipo_documento' => $request->id_tipo_documento,
+            'id_tipo_proceso' => $request->id_tipo_proceso,
+            'archivo' => $rutaArchivo,
         ]);
 
-        $usuario = Usuario::where('dni', $request->dni_usuario)->first();
+        // Asignar documento al usuario por su ID
+        AsignacionDocumento::create([
+            'id_documento' => $documento->id_documento,
+            'id_usuario' => $usuario->id_usuario,
+            'fecha_asignacion' => now(),
+        ]);
 
-        $rutaArchivo = null;
-        if ($request->hasFile('archivo')) {
-            $archivo = $request->file('archivo');
-            $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
-            $rutaArchivo = $archivo->storeAs('documentos', $nombreArchivo, 'public');
-        }
-
-        DB::beginTransaction();
-        try {
-            $documento = Documento::create([
-                'titulo' => $request->titulo,
-                'descripcion' => $request->descripcion,
-                'fecha_creacion' => now(),
-                'id_usuario_creador' => $usuario->id_usuario,
-                'id_tipo_documento' => $request->id_tipo_documento,
-                'id_tipo_proceso' => $request->id_tipo_proceso,
-                'archivo' => $rutaArchivo,
+        // Ubicación inicial
+        $mesa = Ubicacion::where('nombre_ubicacion', 'Mesa de Partes')->first();
+        if ($mesa) {
+            UbicacionDocumento::create([
+                'id_documento' => $documento->id_documento,
+                'id_ubicacion' => $mesa->id_ubicacion,
+                'fecha_registro' => now(),
             ]);
-
-            // Ubicación inicial
-            $mesa = Ubicacion::where('nombre_ubicacion', 'Mesa de Partes')->first();
-            if ($mesa) {
-                UbicacionDocumento::create([
-                    'id_documento' => $documento->id_documento,
-                    'id_ubicacion' => $mesa->id_ubicacion,
-                    'fecha_registro' => now(),
-                ]);
-            }
-
-            // Estado inicial: Enviado
-            $estadoInicial = EstadoDocumento::where('nombre_estado', 'Enviado')->first();
-            if ($estadoInicial) {
-                HistorialEstado::create([
-                    'id_documento' => $documento->id_documento,
-                    'id_estado' => $estadoInicial->id_estado,
-                    'fecha_cambio' => now(),
-                    'observaciones' => 'Documento creado y enviado desde Mesa de Partes',
-                ]);
-            }
-
-            DB::commit();
-            return redirect()->route('documento.store')->with('success', 'Documento registrado correctamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Error al registrar el documento: ' . $e->getMessage());
         }
+
+        // Estado inicial
+        $estadoInicial = EstadoDocumento::where('nombre_estado', 'Enviado')->first();
+        if ($estadoInicial) {
+            HistorialEstado::create([
+                'id_documento' => $documento->id_documento,
+                'id_estado' => $estadoInicial->id_estado,
+                'fecha_cambio' => now(),
+                'observaciones' => 'Documento creado y enviado desde Mesa de Partes',
+            ]);
+        }
+
+        DB::commit();
+        return redirect()->route('documentos.index')->with('success', 'Documento registrado correctamente.');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Error al registrar el documento: ' . $e->getMessage());
     }
+}
+
 
     public function index()
     {
         $documentos = Documento::with([
-            'usuario',
-            'tipoDocumento',
-            'tipoProceso',
-            'ubicacionActual.ubicacion',
-            'estadoActual.estado' 
+        'usuarioAsignado', 
+        'tipoDocumento',
+        'tipoProceso',
+        'ubicacionActual.ubicacion',
+        'estadoActual.estado'
         ])->get();
 
         return view('documentos.index', compact('documentos'));
@@ -223,12 +236,14 @@ public function destroy($id)
         $documento->historialEstado()->delete();
         $documento->ubicaciones()->delete();
 
+        // ❗ Eliminar asignaciones nuevas
+        $documento->asignaciones()->delete();
+
         // Eliminar el archivo (opcional)
         if ($documento->archivo && \Storage::disk('public')->exists($documento->archivo)) {
             \Storage::disk('public')->delete($documento->archivo);
         }
 
-        // Eliminar documento
         $documento->delete();
 
         DB::commit();
@@ -237,6 +252,23 @@ public function destroy($id)
         DB::rollBack();
         return back()->with('error', 'Error al eliminar: ' . $e->getMessage());
     }
+}
+
+
+public function misDocumentos()
+{
+    $usuario = Auth::user();
+
+    $documentos = Documento::whereHas('asignaciones', function ($query) use ($usuario) {
+        $query->where('id_usuario', $usuario->id_usuario);
+    })->with([
+        'tipoDocumento',
+        'tipoProceso',
+        'ubicacionActual.ubicacion',
+        'estadoActual.estado'
+    ])->get();
+
+    return view('documentos.mis_documentos', compact('documentos'));
 }
 
 

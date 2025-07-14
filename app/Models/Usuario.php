@@ -30,4 +30,12 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(Documento::class, 'id_usuario_creador');
     }
+    public function asignaciones()
+    {
+    return $this->hasMany(AsignacionDocumento::class, 'id_usuario');
+    }
+    public function getNombreCompletoAttribute()
+    {
+    return $this->nombre . ' ' . $this->apellido;
+    }
 }
