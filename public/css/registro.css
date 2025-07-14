@@ -78,3 +78,117 @@ div[style*="color:red"] ul {
     color: #c0392b;
     list-style: none;
 }
+/*nuevossssssssssssss*/
+* {
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
+}
+
+body {
+	background: linear-gradient(to bottom, black, transparent), url("3.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	justify-content: center;
+}
+
+h1 {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #fff;
+}
+
+form {
+	width: 100%;
+	max-width: 400px;
+	background: rgba(255, 255, 255, 0.1);
+	padding: 30px;
+	border-radius: 20px;
+	border: 1px solid #ffffff30;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor con ícono */
+.box {
+	position: relative;
+}
+
+/* Input con espacio para el ícono */
+.box input {
+	width: 100%;
+	padding: 12px 45px 12px 15px;
+	margin-bottom: 15px;
+	border-radius: 30px;
+	border: 1px solid #ccc;
+	background: transparent;
+	font-size: 15px;
+	outline: none;
+}
+
+/* Ícono dentro del input */
+.box i {
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	transform: translateY(-50%);
+	color: #000000;
+	font-size: 22px; /* Tamaño del ícono aumentado */
+	pointer-events: none;
+	transition: color 0.3s ease;
+}
+
+/* Efecto al enfocar el input */
+.box input:focus + i {
+	color: #fff;
+}
+
+/* Placeholder */
+input::placeholder {
+	color: #bbb;
+}
+
+/* Botón */
+button {
+	width: 100%;
+	padding: 12px 15px;
+	border-radius: 30px;
+	background-color: #f6f6f6;
+	color: #000000;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	font-size: 15px;
+}
+
+button:hover {
+	background-color: #00b0dd;
+}
+
+/* Enlace */
+a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 14px;
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+}
+
+/* Mensaje de error */
+.error-message {
+	background-color: rgba(255, 0, 0, 0.1);
+	padding: 10px;
+	border-radius: 10px;
+	color: #ff9999;
+	margin-bottom: 15px;
+	width: 100%;
+	max-width: 400px;
+}
