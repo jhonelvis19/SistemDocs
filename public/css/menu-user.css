@@ -1,0 +1,30 @@
+/* Estilos personalizados para el menú del usuario */
+
+.navbar {
+    background-color: #2b2a2a !important; /* Fondo oscuro elegante */
+    padding: 0.75rem 1rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #ffffff !important;
+}
+
+.navbar-brand:hover {
+    color: #0777ff !important; /* Azul al pasar */
+}
+
+.nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #0777ff !important; /* Azul vibrante al pasar */
+}
+
+.navbar .nav-item span.nav-link {
+    color: #ffffff !important;
+    cursor: default;
+}
