@@ -49,9 +49,12 @@ CREATE TABLE `documentos` (
   `id_usuario_creador` int(11) DEFAULT NULL,
   `archivo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
- --------------------------------------------------------
+-- --------------------------------------------------------
 -- Table structure for table `estados_documento`
---
+INSERT INTO `documentos` (`id_documento`, `titulo`, `descripcion`, `fecha_creacion`, `id_tipo_documento`, `id_tipo_proceso`, `id_usuario_creador`, `archivo`) VALUES
+(9, 'Documento 9', 'Documento necesario para referencias previas', '2025-06-20', 1, 1, 1, NULL),
+(11, 'Documento 11', 'Documento para historial_estado', '2025-06-21', 2, 2, 1, NULL),
+(12, 'Documento 12', 'Documento para historial y ubicacion', '2025-06-22', 3, 3, 1, NULL);
 
 CREATE TABLE `estados_documento` (
   `id_estado` int(11) NOT NULL,
@@ -154,37 +157,37 @@ CREATE TABLE `historial_estado` (
 --
 
 INSERT INTO `historial_estado` (`id_historial`, `id_documento`, `id_estado`, `fecha_cambio`, `observaciones`) VALUES
-(1, 11, 2, '2025-06-23 06:36:53', 'Cambio automático por avance de ubicación.'),
-(2, 11, 2, '2025-06-23 06:36:58', 'Cambio automático por avance de ubicación.'),
-(3, 11, 2, '2025-06-23 06:37:01', 'Cambio automático por avance de ubicación.'),
-(4, 11, 4, '2025-06-23 06:37:03', 'Cambio automático por avance de ubicación.'),
-(5, 11, 1, '2025-06-23 06:37:06', 'Cambio automático por avance de ubicación.'),
-(6, 11, 2, '2025-06-23 06:37:11', 'Cambio automático por avance de ubicación.'),
-(7, 11, 2, '2025-06-23 06:41:33', 'Cambio automático por avance de ubicación.'),
-(8, 11, 2, '2025-06-23 06:41:42', 'Cambio automático por avance de ubicación.'),
-(9, 11, 4, '2025-06-23 06:41:44', 'Cambio automático por avance de ubicación.'),
-(10, 11, 1, '2025-06-23 06:41:47', 'Cambio automático por avance de ubicación.'),
-(11, 11, 2, '2025-06-23 06:41:51', 'Cambio automático por avance de ubicación.'),
-(12, 11, 2, '2025-06-23 06:41:55', 'Cambio automático por avance de ubicación.'),
-(13, 11, 2, '2025-06-23 06:41:56', 'Cambio automático por avance de ubicación.'),
+(1, 11, 2, '2025-06-23 06:36:53', 'Su Documento Avanso de Oficina'),
+(2, 11, 2, '2025-06-23 06:36:58', 'Su Documento Avanso de Oficina'),
+(3, 11, 2, '2025-06-23 06:37:01', 'Su Documento Avanso de Oficina'),
+(4, 11, 4, '2025-06-23 06:37:03', 'Su Documento Avanso de Oficina'),
+(5, 11, 1, '2025-06-23 06:37:06', 'Su Documento Avanso de Oficina'),
+(6, 11, 2, '2025-06-23 06:37:11', 'Su Documento Avanso de Oficina'),
+(7, 11, 2, '2025-06-23 06:41:33', 'Su Documento Avanso de Oficina'),
+(8, 11, 2, '2025-06-23 06:41:42', 'Su Documento Avanso de Oficina'),
+(9, 11, 4, '2025-06-23 06:41:44', 'Su Documento Avanso de Oficina'),
+(10, 11, 1, '2025-06-23 06:41:47', 'Su Documento Avanso de Oficina'),
+(11, 11, 2, '2025-06-23 06:41:51', 'Su Documento Avanso de Oficina'),
+(12, 11, 2, '2025-06-23 06:41:55', 'Su Documento Avanso de Oficina'),
+(13, 11, 2, '2025-06-23 06:41:56', 'Su Documento Avanso de Oficina'),
 (14, 11, 3, '2025-06-23 06:42:03', 'Rechazado por el administrador'),
-(15, 11, 4, '2025-06-23 06:42:07', 'Cambio automático por avance de ubicación.'),
+(15, 11, 4, '2025-06-23 06:42:07', 'Su Documento Avanso de Oficina'),
 (16, 11, 3, '2025-06-23 06:42:16', 'Rechazado por el administrador'),
-(17, 11, 1, '2025-06-23 06:42:58', 'Cambio automático por avance de ubicación.'),
-(18, 9, 2, '2025-06-23 06:43:53', 'Cambio automático por avance de ubicación.'),
-(19, 11, 2, '2025-06-23 06:50:20', 'Cambio automático por avance de ubicación.'),
-(20, 11, 2, '2025-06-23 06:50:24', 'Cambio automático por avance de ubicación.'),
-(21, 11, 2, '2025-06-23 06:50:28', 'Cambio automático por avance de ubicación.'),
-(22, 11, 4, '2025-06-23 06:50:31', 'Cambio automático por avance de ubicación.'),
-(23, 11, 1, '2025-06-23 06:50:34', 'Cambio automático por avance de ubicación.'),
-(24, 11, 2, '2025-06-23 06:50:36', 'Cambio automático por avance de ubicación.'),
+(17, 11, 1, '2025-06-23 06:42:58', 'Su Documento Avanso de Oficina'),
+(18, 9, 2, '2025-06-23 06:43:53', 'Su Documento Avanso de Oficina'),
+(19, 11, 2, '2025-06-23 06:50:20', 'Su Documento Avanso de Oficina'),
+(20, 11, 2, '2025-06-23 06:50:24', 'Su Documento Avanso de Oficina'),
+(21, 11, 2, '2025-06-23 06:50:28', 'Su Documento Avanso de Oficina'),
+(22, 11, 4, '2025-06-23 06:50:31', 'Su Documento Avanso de Oficina'),
+(23, 11, 1, '2025-06-23 06:50:34', 'Su Documento Avanso de Oficina'),
+(24, 11, 2, '2025-06-23 06:50:36', 'Su Documento Avanso de Oficina'),
 (25, 12, 1, '2025-06-23 06:51:15', 'Documento creado y enviado desde Mesa de Partes'),
-(26, 12, 2, '2025-06-23 06:51:23', 'Cambio automático por avance de ubicación.'),
-(27, 12, 2, '2025-06-23 06:51:27', 'Cambio automático por avance de ubicación.'),
-(28, 12, 2, '2025-06-23 06:51:29', 'Cambio automático por avance de ubicación.'),
-(29, 12, 4, '2025-06-23 06:51:32', 'Cambio automático por avance de ubicación.'),
-(30, 12, 1, '2025-06-23 06:51:35', 'Cambio automático por avance de ubicación.'),
-(31, 12, 2, '2025-06-23 06:51:44', 'Cambio automático por avance de ubicación.'),
+(26, 12, 2, '2025-06-23 06:51:23', 'Su Documento Avanso de Oficina'),
+(27, 12, 2, '2025-06-23 06:51:27', 'Su Documento Avanso de Oficina'),
+(28, 12, 2, '2025-06-23 06:51:29', 'Su Documento Avanso de Oficina'),
+(29, 12, 4, '2025-06-23 06:51:32', 'Su Documento Avanso de Oficina'),
+(30, 12, 1, '2025-06-23 06:51:35', 'Su Documento Avanso de Oficina'),
+(31, 12, 2, '2025-06-23 06:51:44', 'Su Documento Avanso de Oficina'),
 (32, 12, 3, '2025-06-23 06:51:53', 'Rechazado por el administrador');
 
 -- --------------------------------------------------------
