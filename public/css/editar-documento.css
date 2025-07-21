@@ -1,0 +1,138 @@
+/* Reset básico y fondo */
+* {
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: linear-gradient(to bottom, black, transparent), url("1.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Panel superior de extremo a extremo */
+header, nav {
+	width: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	padding: 10px 20px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}
+
+/* Contenedor general centrado */
+.main-container {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 100px; /* espacio por el header */
+	padding-bottom: 40px;
+}
+
+/* Título */
+h1 {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #fff;
+	font-size: 24px;
+}
+
+/* Contenedor del formulario */
+form {
+	width: 100%;
+	max-width: 420px; /* más ancho que antes */
+	background: rgba(255, 255, 255, 0.1);
+	padding: 25px 20px;
+	border-radius: 20px;
+	border: 1px solid #ffffff30;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(5px);
+	margin: 0 auto; /* centrar por si acaso */
+}
+
+/* Etiquetas */
+label {
+	display: block;
+	margin-bottom: 6px;
+	color: #fff;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+/* Inputs, selects y textarea */
+input[type="text"],
+textarea,
+select {
+	width: 100%;
+	padding: 12px 15px;
+	margin-bottom: 16px;
+	border-radius: 25px;
+	border: 1px solid #ccc;
+	background: rgba(255, 255, 255, 0.2);
+	color: #fff;
+	font-size: 14px;
+	outline: none;
+	transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	border-color: #00b0dd;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Botón */
+button {
+	width: 100%;
+	padding: 12px 15px;
+	border-radius: 25px;
+	background-color: #f6f6f6;
+	color: #000;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	font-size: 15px;
+	transition: background-color 0.3s ease;
+}
+
+button:hover {
+	background-color: #00b0dd;
+	color: #fff;
+}
+
+/* Placeholder */
+::placeholder {
+	color: #ccc;
+}
+
+/* Enlaces */
+a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 14px;
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+}
+
+/* Mensaje de error */
+.error-message {
+	background-color: rgba(255, 0, 0, 0.1);
+	padding: 10px;
+	border-radius: 10px;
+	color: #ff9999;
+	margin-bottom: 15px;
+	width: 100%;
+	max-width: 420px;
+	text-align: center;
+}

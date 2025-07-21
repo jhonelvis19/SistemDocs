@@ -45,20 +45,28 @@
                     <td>{{ $doc->fecha_creacion }}</td>
                     <td>{{ $doc->estadoActual->estado->nombre_estado ?? 'Sin estado' }}</td>
                     <td class="text-center">
-                    @if($doc->estadoActual && $doc->estadoActual->estado->nombre_estado !== 'Rechazado')
-                        {{-- Botón Avanzar --}}
-                        <form action="{{ route('documentos.avanzar', $doc->id_documento) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-outline-success me-1" data-bs-toggle="tooltip" title="Avanzar">
-                                <i class="fas fa-forward"></i>
-                            </button>
-                        </form>
+                   @if($doc->estadoActual && $doc->estadoActual->estado->nombre_estado === 'Finalizado')
+                    {{-- Solo Eliminar --}}
+                    <form action="{{ route('documentos.destroy', $doc->id_documento) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este documento?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Eliminar">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </form>
+                @else
+                    {{-- Botón Avanzar --}}
+                    <form action="{{ route('documentos.avanzar', $doc->id_documento) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-success me-1" data-bs-toggle="tooltip" title="Avanzar">
+                            <i class="fas fa-forward"></i>
+                        </button>
+                    </form>
 
-                        {{-- Botón Editar --}}
-                        <a href="{{ route('documentos.edit', $doc->id_documento) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Editar">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                    @endif
+                    {{-- Botón Editar --}}
+                    <a href="{{ route('documentos.edit', $doc->id_documento) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
 
                     {{-- Botón Rechazar --}}
                     @if($doc->estadoActual && $doc->estadoActual->estado->nombre_estado !== 'Rechazado')
@@ -67,9 +75,7 @@
                         </button>
                     @endif
 
-                    
-
-                    {{-- Botón Eliminar (siempre visible) --}}
+                    {{-- Botón Eliminar --}}
                     <form action="{{ route('documentos.destroy', $doc->id_documento) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este documento?');">
                         @csrf
                         @method('DELETE')
@@ -77,7 +83,8 @@
                             <i class="bi bi-trash3"></i>
                         </button>
                     </form>
-                </td>
+                @endif
+                    </td>
 
                 </tr>
             @endforeach

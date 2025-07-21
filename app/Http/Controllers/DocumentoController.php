@@ -113,6 +113,11 @@ public function store(Request $request)
     {
         $documento = Documento::findOrFail($id);
 
+        // No avanzar si ya está finalizado
+        if ($documento->estado === 'Finalizado') {
+        return redirect()->back()->with('error', 'Este documento ya ha sido finalizado. No se puede avanzar.');
+        }
+
         $estadoActual = $documento->estadoActual;
         if ($estadoActual && $estadoActual->estado->nombre_estado === 'Rechazado') {
         return back()->with('error', 'No se puede avanzar un documento que ha sido rechazado.');

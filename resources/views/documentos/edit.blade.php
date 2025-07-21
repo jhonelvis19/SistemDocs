@@ -1,7 +1,7 @@
 @extends('layouts.menu_adm')
 
 @section('titulo', 'Editar Documento')
-
+<link rel="stylesheet" href="{{ asset('css/editar-documento.css') }}">
 @section('contenido')
 <h1>Editar Documento</h1>
 

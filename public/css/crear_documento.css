@@ -1,81 +1,111 @@
-/* Estilos generales */
+/* Fuente y estilo general */
+* {
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
+}
+
 body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(to bottom, black, transparent), url("/img/3.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	width: 100%;
+	background: linear-gradient(to bottom, black, transparent), url("1.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	display: flex;
+	flex-direction: column;
 }
 
-/* Contenedor principal del formulario */
-.form-container {
-    max-width: 500px;
-    margin: 50px auto;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+/* Encabezado */
+header {
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
 }
 
-/* Título del formulario */
-.form-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+/* Contenedor principal */
+.main-container {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 120px; /* espacio debajo del header */
+	padding-bottom: 60px;
 }
 
-/* Etiquetas y campos */
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #222;
+/* Formulario */
+form {
+	width: 100%;
+	max-width: 420px; /* Aumentado desde 340px */
+	background: rgba(255, 255, 255, 0.1);
+	padding: 30px 25px;
+	border-radius: 20px;
+	border: 1px solid #ffffff30;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(5px);
+	margin: 0 auto;
 }
 
+/* Campos de entrada */
 input[type="text"],
 input[type="file"],
 select,
 textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-radius: 8px;
+	border: none;
+	background-color: rgba(255, 255, 255, 0.2);
+	color: #fff;
 }
 
 /* Botón */
 button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007BFF;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+	width: 100%;
+	padding: 12px;
+	background-color: #007BFF;
+	color: #fff;
+	font-weight: 600;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 
-/* Alertas */
+/* Título del formulario */
+form h2 {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #fff;
+}
+
+/* Estilo de alertas */
 .alert {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+	background-color: rgba(255, 0, 0, 0.2);
+	color: #f88;
+	padding: 15px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	text-align: center;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(to bottom, black, transparent), url("3.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 0;
-    padding: 0;
+/* Para responsive */
+@media (max-width: 480px) {
+	form {
+		max-width: 90%;
+		padding: 20px;
+	}
 }
-
