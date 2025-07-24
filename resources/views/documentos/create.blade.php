@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ asset('css/crear_documento.css') }}">
 
     <div class="form-container">
-        <h2>Crear Documento</h2>
 
         @if ($errors->any())
             <div class="alert">
@@ -27,8 +26,6 @@
             <label for="titulo">Título:</label>
             <input type="text" name="titulo" value="{{ old('titulo') }}" required>
 
-            <label for="descripcion">Descripción:</label>
-            <textarea name="descripcion" rows="4">{{ old('descripcion') }}</textarea>
 
             <label for="dni_usuario">DNI del Usuario asignado:</label>
             <input type="text" name="dni_usuario" required>

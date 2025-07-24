@@ -181,7 +181,7 @@ INSERT INTO `historial_estado` (`id_historial`, `id_documento`, `id_estado`, `fe
 (22, 11, 4, '2025-06-23 06:50:31', 'Su Documento Avanso de Oficina'),
 (23, 11, 1, '2025-06-23 06:50:34', 'Su Documento Avanso de Oficina'),
 (24, 11, 2, '2025-06-23 06:50:36', 'Su Documento Avanso de Oficina'),
-(25, 12, 1, '2025-06-23 06:51:15', 'Documento creado y enviado desde Mesa de Partes'),
+(25, 12, 1, '2025-06-23 06:51:15', 'Documento enviado desde Mesa de Partes'),
 (26, 12, 2, '2025-06-23 06:51:23', 'Su Documento Avanso de Oficina'),
 (27, 12, 2, '2025-06-23 06:51:27', 'Su Documento Avanso de Oficina'),
 (28, 12, 2, '2025-06-23 06:51:29', 'Su Documento Avanso de Oficina'),

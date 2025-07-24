@@ -12,8 +12,7 @@
     <label>Título:</label><br>
     <input type="text" name="titulo" value="{{ old('titulo', $documento->titulo) }}"><br><br>
 
-    <label>Descripción:</label><br>
-    <textarea name="descripcion">{{ old('descripcion', $documento->descripcion) }}</textarea><br><br>
+
 
     <label>Tipo de Documento:</label><br>
     <select name="id_tipo_documento">
